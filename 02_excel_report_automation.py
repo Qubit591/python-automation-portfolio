@@ -10,6 +10,7 @@ from openpyxl.chart import BarChart, Reference
 from openpyxl.utils import get_column_letter
 from datetime import datetime
 import sys
+from pathlib import Path
 
 
 def load_data(filepath):
@@ -65,7 +66,7 @@ def generate_report(input_csv, output_path=None):
     style_header(ws, 3, len(headers))
 
     # Data
-    for i, row in summary.iterrows():
+    for i, (_, row) in enumerate(summary.iterrows()):
         r = i + 4
         ws.cell(r, 1, row["month"])
         ws.cell(r, 2, round(row["total_sales"], 2))
@@ -95,7 +96,7 @@ def generate_report(input_csv, output_path=None):
     cats_ref = Reference(ws, min_col=1, min_row=4, max_row=last_row)
     chart.add_data(data_ref, titles_from_data=True)
     chart.set_categories(cats_ref)
-    ws.add_chart(chart, f"F3")
+    ws.add_chart(chart, "F3")
 
     output = output_path or f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
     wb.save(output)
@@ -105,4 +106,7 @@ def generate_report(input_csv, output_path=None):
 
 if __name__ == "__main__":
     csv_file = sys.argv[1] if len(sys.argv) > 1 else "sales_data.csv"
+    if not Path(csv_file).exists():
+        print(f"✗ File not found: {csv_file}")
+        sys.exit(1)
     generate_report(csv_file)
