@@ -38,6 +38,7 @@ def fetch_prices(coins):
     ids = ",".join(coins)
     url = f"https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies=usd,eur&include_24hr_change=true"
     res = requests.get(url, timeout=10)
+    res.raise_for_status()
     return res.json()
 
 
