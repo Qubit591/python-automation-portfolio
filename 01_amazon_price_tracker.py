@@ -32,13 +32,19 @@ def get_price(url):
     price_tag = soup.select_one(".a-price-whole")
     if not price_tag:
         return None
-    price_str = price_tag.get_text().replace(",", ".").replace("\xa0", "").strip()
-    return float(price_str)
+    price_str = price_tag.get_text().replace(",", ".").replace("\xa0", "").replace(".", "", price_tag.get_text().count(".") - 1).strip()
+    try:
+        return float(price_str)
+    except ValueError:
+        return None
 
 
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": message})
+    try:
+        requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": message}, timeout=10)
+    except Exception as e:
+        print(f"Telegram error: {e}")
 
 
 def log(product, price):
