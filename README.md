@@ -53,6 +53,5 @@ Pulls data from any API (crypto prices, weather, sales...) and syncs it to a Goo
 3. I build it, you test it
 4. Pay only when satisfied ✅
 
-**Reddit:** u/VOTRE_PSEUDO  
-**Fiverr:** fiverr.com/VOTRE_PSEUDO  
-**Email:** votre@email.com
+**Reddit:** u/InternalBicycle3927  
+**Fiverr:** fiverr.com/Qubit591  
